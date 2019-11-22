@@ -9,8 +9,9 @@ public class WebDriverSettings {
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver77");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver78.exe");
         driver = new ChromeDriver();
+        driver.manage().window().fullscreen();
     }
 
     @After
