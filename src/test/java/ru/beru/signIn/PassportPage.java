@@ -21,6 +21,7 @@ public class PassportPage {
     private By fieldLogin = By.id("passp-field-login");
     private By fieldPassword = By.id("passp-field-passwd");
     private By buttonEnter = By.cssSelector("button[type=\"submit\"]");
+    //todo correct locator
     private By buttonPassword = By.cssSelector("#root > div > div > div.passp-flex-wrapper " +
             "> div > div.passp-auth > div.passp-auth-content > div.passp-route-forward > div > div > form > " +
             "div.passp-button.passp-sign-in-button" +
@@ -42,6 +43,8 @@ public class PassportPage {
         driver.findElement(buttonPassword).click();
     }
 
+
+    //todo button locator page
     public void checkSignInSuccess() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(buttonMyProfile));
         Assert.assertEquals(driver.findElement(buttonMyProfile).getText(), "Мой профиль");
