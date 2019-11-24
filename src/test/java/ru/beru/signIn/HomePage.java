@@ -16,7 +16,7 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, 20);
     }
 
     @FindBy(css = "[data-apiary-widget-name=\"@marketplace/Auth\"]")
