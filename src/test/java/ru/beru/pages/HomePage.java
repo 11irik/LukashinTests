@@ -16,7 +16,7 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 20);
+        wait = new WebDriverWait(driver, 10);
     }
 
     @FindBy(css = "[data-apiary-widget-name=\"@marketplace/Auth\"]")
@@ -52,6 +52,7 @@ public class HomePage {
 
     public void open() {
         driver.get("https://beru.ru/");
+
     }
 
     public void loginToAccount() {

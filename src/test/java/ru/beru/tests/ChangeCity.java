@@ -15,7 +15,7 @@ public class ChangeCity extends WebDriverSettings {
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
         homePage.open();
 
-        homePage.checkCity("Саратов");
+        homePage.checkCity("Саратfов");
 
         homePage.changeCity("Хвалынск");
 

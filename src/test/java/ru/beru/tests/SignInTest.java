@@ -6,10 +6,12 @@ import ru.beru.WebDriverSettings;
 import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;
 
+import java.io.IOException;
+
 public class SignInTest extends WebDriverSettings {
 
     @Test
-    public void signIn() throws InterruptedException{
+    public void signIn() throws InterruptedException, IOException {
 //        todo ask why do we need PageFactory.initElements
 //        HomePage home = new HomePage(driver);
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
