@@ -45,9 +45,11 @@ public class WebDriverSettings {
             driver.quit();
         }
 
-        public void takeScreenshot(String name) throws IOException {
+        @Attachment(value = "Screenshot")
+        public byte[] takeScreenshot(String name) throws IOException {
             File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(screenShotFile, new File("./Screenshots/" + name + ".png"));
+            FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
+            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         }
     };
 }

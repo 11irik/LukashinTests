@@ -8,7 +8,7 @@ import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;
 
 
-public class ChangeCity extends WebDriverSettings {
+public class ChangeCityTest extends WebDriverSettings {
 
     @Test
     public void changeCity() throws InterruptedException {

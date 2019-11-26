@@ -1,5 +1,6 @@
 package ru.beru.pages;
 
+import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -60,11 +61,13 @@ public class HomePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(fieldLogin));
     }
 
+    @Step("Type {cityName}")
     public void checkCity(String cityName) {
         open();
         Assert.assertEquals(cityName, cityButton.getText());
     }
 
+    @Step("Type {cityName}")
     public void changeCity(String cityName) {
         cityButton.click();
         wait.until(ExpectedConditions.visibilityOf(smt));
