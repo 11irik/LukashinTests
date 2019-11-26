@@ -1,9 +1,8 @@
-package ru.beru.toothBrush;
+package ru.beru;
 
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
-import ru.beru.WebDriverSettings;
-import ru.beru.signIn.HomePage;
+import ru.beru.pages.ElectricalToothbrushesPage;
 
 public class BuyToothbrushes extends WebDriverSettings {
 

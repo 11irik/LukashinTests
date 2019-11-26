@@ -1,10 +1,10 @@
-package ru.beru.changeCity;
+package ru.beru;
 
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
-import ru.beru.WebDriverSettings;
-import ru.beru.signIn.HomePage;
-import ru.beru.signIn.PassportPage;
+import ru.beru.pages.SettingsPage;
+import ru.beru.pages.HomePage;
+import ru.beru.pages.PassportPage;
 
 
 public class ChangeCity extends WebDriverSettings {
@@ -36,4 +36,6 @@ public class ChangeCity extends WebDriverSettings {
             System.out.println("");
         }
     }
+
+
 }

@@ -1,4 +1,4 @@
-package ru.beru.toothBrush;
+package ru.beru.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
