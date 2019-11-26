@@ -1,7 +1,8 @@
-package ru.beru;
+package ru.beru.tests;
 
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
+import ru.beru.WebDriverSettings;
 import ru.beru.pages.SettingsPage;
 import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;

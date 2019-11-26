@@ -1,4 +1,4 @@
-package ru.beru;
+package ru.beru.tests;
 
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
@@ -6,10 +6,10 @@ import ru.beru.WebDriverSettings;
 import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;
 
-public class SignIn extends WebDriverSettings {
+public class SignInTest extends WebDriverSettings {
 
     @Test
-    public void signIn() {
+    public void signIn() throws InterruptedException{
 //        todo ask why do we need PageFactory.initElements
 //        HomePage home = new HomePage(driver);
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
