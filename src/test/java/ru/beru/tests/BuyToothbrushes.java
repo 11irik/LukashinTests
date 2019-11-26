@@ -20,7 +20,7 @@ public class BuyToothbrushes extends WebDriverSettings {
         electricalToothbrushesPage.open();
         electricalToothbrushesPage.setStartPrice(1000);
 
-        int a = 2;
+        int a = 7;
 //        for(int i = 0; i < 100000; ++i) {
 //            System.out.print(" ");
 //        }
