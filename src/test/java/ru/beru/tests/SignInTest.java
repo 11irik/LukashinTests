@@ -13,10 +13,10 @@ public class SignInTest extends WebDriverSettings {
     @Test
     public void signIn() throws InterruptedException, IOException {
 //        todo ask why do we need PageFactory.initElements
-//        HomePage home = new HomePage(driver);
+//        HomePage homePage = new HomePage(driver);
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
         homePage.open();
-        homePage.loginToAccount();
+        homePage.openSignInPage();
 
         PassportPage passportPage = PageFactory.initElements(driver, PassportPage.class);
         passportPage.fillLogin("lukashintest");

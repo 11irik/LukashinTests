@@ -15,13 +15,13 @@ public class ChangeCityTest extends WebDriverSettings {
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
         homePage.open();
 
-        homePage.checkCity("Саратfов");
+        homePage.checkCity("Саратов");
 
         homePage.changeCity("Хвалынск");
 
         homePage.checkCity("Хвалынск");
 
-        homePage.loginToAccount();
+        homePage.openSignInPage();
 
         PassportPage passportPage = PageFactory.initElements(driver, PassportPage.class);
         passportPage.fillLogin("lukashintest");
