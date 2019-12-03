@@ -12,16 +12,15 @@ public class SignInTest extends WebDriverSettings {
 
     @Test
     public void signIn() throws InterruptedException, IOException {
-//        todo ask why do we need PageFactory.initElements
-//        HomePage homePage = new HomePage(driver);
         HomePage homePage = PageFactory.initElements(driver, HomePage.class);
         homePage.open();
         homePage.openSignInPage();
 
         PassportPage passportPage = PageFactory.initElements(driver, PassportPage.class);
-        passportPage.fillLogin("lukashintest");
-        passportPage.fillPassword("Parol1234");
-        passportPage.checkSignInSuccess();
+        passportPage.fillLoginAndEnter("lukashintest");
+        passportPage.fillPasswordAndEnter("Parol1234");
+        homePage.open();
+        homePage.checkSignInButtonText("Мой профиль");
     }
 
 }

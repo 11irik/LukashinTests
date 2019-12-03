@@ -14,25 +14,34 @@ public class HomePage {
     private WebDriver driver;
     private WebDriverWait wait;
 
+    //todo change constructor
     public HomePage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 5);
     }
 
-    @FindBy(css = "[data-apiary-widget-name=\"@marketplace/Auth\"]")
-    private WebElement authButton;
+    @FindBy(css = "[class=\"_1r1GkezLi0\"]")
+    private WebElement buttonBeru;
 
-    @FindBy(css = "[data-auto=\"region-form-opener\"] [class=\"_2XJ6yiRp5w\"]")
+    @FindBy(css = "[class=\"_3odNv2Dw2n\"]")
+    private WebElement buttonAuth;
+
+    @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")
     private WebElement cityButton;
 
-    @FindBy(id = "react-autowhatever-region")
-    private WebElement listCities;
-    //todo check the element name
+    @FindBy(css = "[class=\"_1U2ErCeoqP\"]")
+    private WebElement popUpcity;
 
-    @FindBy(xpath = "/html/body/div[7]/div/div/div[2]/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div/div/input")
+    @FindBy(xpath = "//div[contains(@data-auto,'region-popup')] //input[contains(@class,'_2JDvXzYsUI')]")
     private WebElement cityField;
 
-    @FindBy(css = "button[class=\"_1FEpprw_Km\"]")
+    @FindBy(id = "react-autowhatever-region")
+    private WebElement listboxCities;
+
+    @FindBy(css = "[class=\"_4qhIn2-ESi Pjv3h3YbYr THqSbzx07u\"]")
+    private WebElement buttonOk;
+
+    @FindBy(css = "[class=\"_1FEpprw_Km\"]")
     private WebElement buttonMyProfile;
 
     @FindBy(css = "[href=\"/my/settings?track=menu\"]")
@@ -47,64 +56,65 @@ public class HomePage {
     @FindBy(css = "body > div:nth-child(10) > div > div:nth-child(1) > div > div > div > div > div._3JUsAgML4w > ul > li:nth-child(12) > div > a")
     private WebElement locatorBeautyAndHygiene;
 
-    @FindBy(xpath = "/html/body/div[6]/div/div/div[2]/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/ul/li[1]")
-    private WebElement boxFirstCity;
-
-    @FindBy(css = "body > div:nth-child(7) > div > div > div._2EtOppZGBN._95Uzi20DUT._1RM9WlpHMC > div > div > div > div._1U2ErCeoqP > div > div > div > div > div > div > div > div._1w_nQg2pMI > div:nth-child(2) > button")
-    private WebElement buttonOk;
-
-    private By nextPageLocator = By.id("passp-field-login");
+    private By firstCityOfList = By.className("_229JDbp_Z8");
+    private By authPageLocator = By.id("passp-field-login");
+    private By settingsPageLocator = By.className("_38iDpDiSsi");
 
 
-    //Methods
+
+    @Step("Open homepage")
     public void open() {
         driver.get("https://beru.ru/");
+        wait.until(ExpectedConditions.visibilityOf(buttonBeru));
     }
 
+    @Step("Open sign-in page")
     public void openSignInPage() {
-        authButton.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(nextPageLocator));
+        buttonAuth.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(authPageLocator));
     }
 
-    @Step("Type {cityName}")
+    @Step("Check that current city is {cityName}")
     public void checkCity(String cityName) {
-        open();
         Assert.assertEquals(cityName, cityButton.getText());
     }
 
-    @Step("Type {cityName}")
+    @Step("Change current city to {cityName}")
     public void changeCity(String cityName) throws InterruptedException {
         cityButton.click();
-        Thread.sleep(2000);
-//        wait.until(ExpectedConditions.visibilityOf(cityField));
+        wait.until(ExpectedConditions.visibilityOf(popUpcity));
         cityField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
         cityField.sendKeys(cityName);
-
-        wait.until(ExpectedConditions.visibilityOf(listCities));
-
-        Thread.sleep(4000);
-
-        //Assert.assertEquals(cityName, boxFirstCity.getText());
-
-       // boxFirstCity.click();
-
-//        wait.until(ExpectedConditions.visibilityOf(buttonOk));
-//
-//        buttonOk.click();
+        wait.until(ExpectedConditions.visibilityOf(listboxCities));
+        WebElement firstCity = listboxCities.findElement(firstCityOfList);
+        //fixme sometimes fail because of typing speed
+        Assert.assertEquals(cityName, firstCity.getText());
+        firstCity.click();
+        wait.until(ExpectedConditions.visibilityOf(buttonOk));
+        buttonOk.click();
+        open();
     }
 
+    @Step("Check signIn button text = {text}")
+    public void checkSignInButtonText(String text) {
+        Assert.assertEquals(text, buttonAuth.getText());
+    }
+
+    @Step("Open settings")
     public void openSettings() {
-        //buttonMyProfile.findElement(buttonSettings).click();
-        buttonMyProfile.click();
+        buttonAuth.click();
         wait.until(ExpectedConditions.visibilityOf(buttonSettings));
         buttonSettings.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsPageLocator));
     }
 
+    @Step("Open catalog")
     public void openCatalog() {
         buttonCatalog.click();
         //wait.until(ExpectedConditions.visibilityOf(catalog)); //todo change visibility element
     }
 
+    @Step("Open beauty-and-hygiene page")
     public void openBeautyAndHygiene() { ;
         locatorBeautyAndHygiene.click();
     }

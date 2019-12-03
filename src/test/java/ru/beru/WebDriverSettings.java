@@ -10,6 +10,7 @@ import org.junit.runner.Description;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +20,9 @@ public class WebDriverSettings {
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/home/kirill/Documents/Workspace/IDEa/LukashinTests/src/main/resources/drivers/chromedriver78");
+       System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver78.exe");
         driver = new ChromeDriver();
+//        driver = new FirefoxDriver();
         driver.manage().window().fullscreen();
     }
 
@@ -33,11 +35,11 @@ public class WebDriverSettings {
     public TestWatcher watchman = new TestWatcher() {
         @Override
         protected void failed(Throwable e, Description description) {
-            try {
-                takeScreenshot(description.getClassName() + ":" + description.getMethodName());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+//            try {
+//                takeScreenshot(description.getClassName() + ":" + description.getMethodName());
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
         }
 
         @Override
@@ -45,11 +47,11 @@ public class WebDriverSettings {
             driver.quit();
         }
 
-        @Attachment(value = "Screenshot")
-        public byte[] takeScreenshot(String name) throws IOException {
-            File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
-            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        }
+//        @Attachment(value = "Screenshot")
+//        public byte[] takeScreenshot(String name) throws IOException {
+//            File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+//            FileUtils.copyFile(screenShotFile, new File("C:\\Users\\Kirill\\Documents\\Workspace\\JavaProjects\\LukashinTests\\target\\screenshots\\" + name + ".png"));
+//            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+//        }
     };
 }

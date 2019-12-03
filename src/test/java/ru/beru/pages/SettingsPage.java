@@ -1,5 +1,6 @@
 package ru.beru.pages;
 
+import io.qameta.allure.Step;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,18 +11,20 @@ public class SettingsPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
+    //todo change the constructor
     public SettingsPage(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 10);
     }
 
-    @FindBy(css = "[data-auto=\"region-form-opener\"] [class=\"_2XJ6yiRp5w\"]")
+    @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")
     private WebElement buttonCity;
 
-    @FindBy(css = "#region > div > div > div > span > span > span")
+    @FindBy(xpath = "//span[contains(@data-auto,'region')]//span[1]//span[1]")
     private WebElement buttonYourCity;
 
-    public void checkCityCorrect() {
+    @Step("Check that the city name in the settings matches the name in the title")
+    public void checkCityMatches() {
         Assert.assertEquals(buttonCity.getText(), buttonYourCity.getText());
     }
 }
