@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -47,20 +48,19 @@ public class HomePage {
     @FindBy(css = "[href=\"/my/settings?track=menu\"]")
     private WebElement buttonSettings;
 
-    @FindBy(css = "body > div.main > div:nth-child(2) > div:nth-child(1) > div > div > div > div > div > div > div > div > div._1SEkJje5GJ > div._2BUQxcqKF7 > div > div._1QpP2zubQ8 > div._301_b-LBxR > div > div > span > button")
+    @FindBy(css = "[class=\"_3RM4_n5whA\"]")
     private WebElement buttonCatalog;
 
-    @FindBy(css = "body > div:nth-child(10) > div > div:nth-child(1) > div > div > div > div > div._3JUsAgML4w")
+    @FindBy(css = "[class=\"_3JUsAgML4w\"]")
     private WebElement catalog;
 
-    @FindBy(css = "body > div:nth-child(10) > div > div:nth-child(1) > div > div > div > div > div._3JUsAgML4w > ul > li:nth-child(12) > div > a")
-    private WebElement locatorBeautyAndHygiene;
+    @FindBy(css = "[title=\"Красота и гигиена\"]")
+    private WebElement buttonBeautyAndHygiene;
 
     private By firstCityOfList = By.className("_229JDbp_Z8");
     private By authPageLocator = By.id("passp-field-login");
     private By settingsPageLocator = By.className("_38iDpDiSsi");
-
-
+    private By beautyAndHygienePageLocator = By.className("_2dcblmamIS");
 
     @Step("Open homepage")
     public void open() {
@@ -111,12 +111,15 @@ public class HomePage {
     @Step("Open catalog")
     public void openCatalog() {
         buttonCatalog.click();
-        //wait.until(ExpectedConditions.visibilityOf(catalog)); //todo change visibility element
+        wait.until(ExpectedConditions.visibilityOf(catalog));
     }
 
     @Step("Open beauty-and-hygiene page")
-    public void openBeautyAndHygiene() { ;
-        locatorBeautyAndHygiene.click();
+    public void openBeautyAndHygiene() throws InterruptedException {
+//        Actions actions = new Actions(driver);
+//        actions.moveToElement(buttonBeautyAndHygiene).perform();
+        buttonBeautyAndHygiene.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(beautyAndHygienePageLocator));
     }
 
 
