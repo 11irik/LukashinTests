@@ -11,12 +11,12 @@ import java.io.IOException;
 public class SignInTest extends WebDriverSettings {
 
     @Test
-    public void signIn() throws InterruptedException, IOException {
-        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+    public void signIn() {
+        HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.openSignInPage();
 
-        PassportPage passportPage = PageFactory.initElements(driver, PassportPage.class);
+        PassportPage passportPage = new PassportPage(driver);
         passportPage.fillLoginAndEnter("lukashintest");
         passportPage.fillPasswordAndEnter("Parol1234");
         homePage.open();

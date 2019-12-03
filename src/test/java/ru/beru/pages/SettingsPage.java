@@ -5,16 +5,14 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.beru.WebDriverSettings;
 
-public class SettingsPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+public class SettingsPage extends WebDriverSettings {
 
-    //todo change the constructor
     public SettingsPage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")

@@ -8,17 +8,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.beru.WebDriverSettings;
 
-public class HomePage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    //todo change constructor
+public class HomePage extends WebDriverSettings {
     public HomePage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, 5);
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(css = "[class=\"_1r1GkezLi0\"]")
@@ -64,6 +61,7 @@ public class HomePage {
 
     @Step("Open homepage")
     public void open() {
+
         driver.get("https://beru.ru/");
         wait.until(ExpectedConditions.visibilityOf(buttonBeru));
     }
@@ -80,7 +78,7 @@ public class HomePage {
     }
 
     @Step("Change current city to {cityName}")
-    public void changeCity(String cityName) throws InterruptedException {
+    public void changeCity(String cityName) {
         cityButton.click();
         wait.until(ExpectedConditions.visibilityOf(popUpcity));
         cityField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
@@ -115,7 +113,7 @@ public class HomePage {
     }
 
     @Step("Open beauty-and-hygiene page")
-    public void openBeautyAndHygiene() throws InterruptedException {
+    public void openBeautyAndHygiene() {
 //        Actions actions = new Actions(driver);
 //        actions.moveToElement(buttonBeautyAndHygiene).perform();
         buttonBeautyAndHygiene.click();

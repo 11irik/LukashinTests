@@ -6,17 +6,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.beru.WebDriverSettings;
 
-public class ElectricalToothbrushesPage {
-    WebDriver driver;
-    WebDriverWait wait;
-
-    //todo change the constructor
+public class ElectricalToothbrushesPage extends WebDriverSettings {
     public ElectricalToothbrushesPage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, 50);
+        PageFactory.initElements(driver, this);
     }
 
     //fixme change to normal locator
@@ -46,16 +43,17 @@ public class ElectricalToothbrushesPage {
 
     }
 
-    public void setStartPrice(int price) throws InterruptedException {
-//        fieldPriceStart.click();
+    @Step("Set start price")
+    public void setStartPrice(int price) {
         fieldPriceStart.sendKeys(Integer.toString(price));
     }
 
+    @Step("Set minimal price")
     public void setEndPrice(int price) {
-//        fieldPriceEnd.click();
         fieldPriceEnd.sendKeys(Integer.toString(price));
     }
 
+    @Step("Check the price range is correct")
     public void checkPriceRangeCorrect(int low, int max) throws InterruptedException {
         //fixme wait.until
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorFoundedGoods));
@@ -66,12 +64,14 @@ public class ElectricalToothbrushesPage {
         Assert.assertEquals(priceRange, labelPriceRange.getText());
     }
 
+    @Step("Purchasing penultimate toothbrush")
     public void purchaseLast() {
         wait.until(ExpectedConditions.elementToBeClickable(penultimateToothbrush));
         penultimateToothbrush.click();
         wait.until(ExpectedConditions.textToBePresentInElement(penultimateToothbrush, "В корзине"));
     }
 
+    @Step("Go to cart")
     public void gotoCart() {
         penultimateToothbrush.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(locatorCartPage));

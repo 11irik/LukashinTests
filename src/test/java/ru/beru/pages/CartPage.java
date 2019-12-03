@@ -5,17 +5,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.beru.WebDriverSettings;
 
-public class CartPage {
-    WebDriver driver;
-    WebDriverWait wait;
-
-    //todo change the constructor
+public class CartPage extends WebDriverSettings {
     public CartPage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, 50);
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(css = "[class=\"_2YHTmhZmt4\"]")
@@ -27,10 +24,11 @@ public class CartPage {
     @FindBy(css="[class=\"_4qhIn2-ESi Pjv3h3YbYr THqSbzx07u _39B7yXQbvm _2W4X8tX6r0\"]")
     private WebElement buttonCheckout;
 
+    //fixme
     @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div[1]/div/div/div/input")
     private WebElement countField;
 
-    //fixme Checkout page
+    //checkoutpage
     @FindBy(css="[class=\"_1e2FY_93Ro\"]")
     private WebElement yourOrder;
 
@@ -41,11 +39,11 @@ public class CartPage {
     private WebElement labelDeliveryPrice;
 
     @FindBy(xpath = "//span[@data-auto=\"change-link\"]")
-    WebElement buttonChangeOrder;
+    private WebElement buttonChangeOrder;
 
     public void getFreeShipment() throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(labelLeftForFreeShipment));
-        String priceStr[] = labelLeftForFreeShipment.getText().split(" ");
+        String[] priceStr = labelLeftForFreeShipment.getText().split(" ");
         int leftForFree = Integer.parseInt(priceStr[0]);
         if (leftForFree < 10) {
             leftForFree *= 100;
@@ -54,7 +52,7 @@ public class CartPage {
         priceStr = labelSummary.getText().split(" ");
         int toothbrushPrice = Integer.parseInt(priceStr[0]) * 1000 + Integer.parseInt(priceStr[1]);
 
-        //fixme checkout page
+        //checkout page
         buttonCheckout.click();
         wait.until(ExpectedConditions.visibilityOf(yourOrder));
         buttonCourierDelivery.click();
@@ -64,7 +62,7 @@ public class CartPage {
         int sum = Integer.parseInt(priceStr[0]) * 1000 + Integer.parseInt(priceStr[1]);
         Assert.assertEquals(sum, deliveryPrice + toothbrushPrice);
         buttonChangeOrder.click();
-        //fixme checkout page
+        //checkout page
 
         wait.until(ExpectedConditions.visibilityOf(buttonCheckout));
         int k = (int) Math.ceil(2999.0 / toothbrushPrice);
@@ -73,8 +71,5 @@ public class CartPage {
         countField.sendKeys(Integer.toString(k));
 
         Thread.sleep(100000);
-
-
-
     }
 }

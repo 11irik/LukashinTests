@@ -11,25 +11,22 @@ import ru.beru.pages.SettingsPage;
 public class ChangeCityTest extends WebDriverSettings {
 
     @Test
-    public void changeCity() throws InterruptedException {
-        //todo change initialization after changing class constructor
-        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+    public void changeCity() {
+        HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.checkCity("Саратов");
         homePage.changeCity("Хвалынск");
         //fixme wait for update
         homePage.checkCity("Хвалынск");
-
         homePage.openSignInPage();
-        //todo change initialization after changing class constructor
-        PassportPage passportPage = PageFactory.initElements(driver, PassportPage.class);
+
+        PassportPage passportPage = new PassportPage(driver);
         passportPage.fillLoginAndEnter("lukashintest");
         passportPage.fillPasswordAndEnter("Parol1234");
         homePage.checkSignInButtonText("Мой профиль");
-
         homePage.openSettings();
-        //todo change initialization after changing class constructor
-        SettingsPage settingsPage = PageFactory.initElements(driver, SettingsPage.class);
+
+        SettingsPage settingsPage = new SettingsPage(driver);
         settingsPage.checkCityMatches();
     }
 
