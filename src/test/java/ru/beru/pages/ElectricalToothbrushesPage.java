@@ -16,7 +16,7 @@ public class ElectricalToothbrushesPage extends WebDriverSettings {
         PageFactory.initElements(driver, this);
     }
 
-    //fixme change to normal locator
+    //fixme
     @FindBy(xpath = "/html/body/div[1]/div[5]/div/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div[1]/div/div/fieldset/div/span[1]/div/input")
     private WebElement fieldPriceStart;
 

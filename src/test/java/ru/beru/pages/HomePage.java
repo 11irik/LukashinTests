@@ -61,7 +61,6 @@ public class HomePage extends WebDriverSettings {
 
     @Step("Open homepage")
     public void open() {
-
         driver.get("https://beru.ru/");
         wait.until(ExpectedConditions.visibilityOf(buttonBeru));
     }
@@ -82,15 +81,17 @@ public class HomePage extends WebDriverSettings {
         cityButton.click();
         wait.until(ExpectedConditions.visibilityOf(popUpcity));
         cityField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
-        cityField.sendKeys(cityName);
+        for (int i = 0; i < cityName.length(); ++i) {
+            cityField.sendKeys(Character.toString(cityName.charAt(i)));
+        }
         wait.until(ExpectedConditions.visibilityOf(listboxCities));
         WebElement firstCity = listboxCities.findElement(firstCityOfList);
-        //fixme sometimes fail because of typing speed
+        wait.until(ExpectedConditions.textToBePresentInElement(firstCity, cityName));
         Assert.assertEquals(cityName, firstCity.getText());
         firstCity.click();
         wait.until(ExpectedConditions.visibilityOf(buttonOk));
         buttonOk.click();
-        open();
+        wait.until(ExpectedConditions.textToBePresentInElement(cityButton, cityName));
     }
 
     @Step("Check signIn button text = {text}")

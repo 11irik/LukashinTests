@@ -1,0 +1,12 @@
+<suite name="Parameter test Suite" verbose="1">
+    <parameter name="suite-param" value="Хвалынск" />
+    <test name="Parameter Test one">
+        <classes>
+            <class name="ru.beru.tests.ChangeCityTest">
+                <methods>
+                    <include name="prameterTestOne" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

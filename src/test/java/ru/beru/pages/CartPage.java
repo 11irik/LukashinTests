@@ -25,7 +25,7 @@ public class CartPage extends WebDriverSettings {
     private WebElement buttonCheckout;
 
     //fixme
-    @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div[1]/div/div/div/input")
+    @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/div/div/input")
     private WebElement countField;
 
     //checkoutpage
@@ -66,10 +66,10 @@ public class CartPage extends WebDriverSettings {
 
         wait.until(ExpectedConditions.visibilityOf(buttonCheckout));
         int k = (int) Math.ceil(2999.0 / toothbrushPrice);
-        countField.click();
+        //countField.click();
         countField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
         countField.sendKeys(Integer.toString(k));
 
-        Thread.sleep(100000);
+        Thread.sleep(5000);
     }
 }

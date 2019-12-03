@@ -17,33 +17,26 @@ import java.io.File;
 import java.io.IOException;
 
 public class WebDriverSettings {
-    public ChromeDriver driver;
-    public WebDriverWait wait;
-
-
-    @Before
-    public void setUp() {
-       System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver78.exe");
-        driver = new ChromeDriver();
-//        driver = new FirefoxDriver();
-        wait = new WebDriverWait(driver, 5);
-        driver.manage().window().fullscreen();
-    }
-
-//    @After
-//    public void close() {
-//        driver.quit();
-//    }
+    public static ChromeDriver driver;
+    public static WebDriverWait wait;
 
     @Rule
     public TestWatcher watchman = new TestWatcher() {
         @Override
+        protected void starting(Description description) {
+            System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver78.exe");
+            driver = new ChromeDriver();
+            wait = new WebDriverWait(driver, 50);
+            driver.manage().window().fullscreen();
+        }
+
+        @Override
         protected void failed(Throwable e, Description description) {
-//            try {
-//                takeScreenshot(description.getClassName() + ":" + description.getMethodName());
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
+            try {
+                takeScreenshot(description.getClassName() + ":" + description.getMethodName());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         @Override
@@ -51,11 +44,11 @@ public class WebDriverSettings {
             driver.quit();
         }
 
-//        @Attachment(value = "Screenshot")
-//        public byte[] takeScreenshot(String name) throws IOException {
-//            File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-//            FileUtils.copyFile(screenShotFile, new File("C:\\Users\\Kirill\\Documents\\Workspace\\JavaProjects\\LukashinTests\\target\\screenshots\\" + name + ".png"));
-//            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-//        }
+        @Attachment(value = "Screenshot")
+        public byte[] takeScreenshot(String name) throws IOException {
+            File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(screenShotFile, new File("C:\\Users\\Kirill\\Documents\\Workspace\\JavaProjects\\LukashinTests\\target\\screenshots\\" + name + ".png"));
+            return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        }
     };
 }

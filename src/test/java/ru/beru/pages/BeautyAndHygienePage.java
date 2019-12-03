@@ -15,8 +15,7 @@ public class BeautyAndHygienePage extends WebDriverSettings {
         PageFactory.initElements(driver, this);
     }
 
-    //fixme
-    @FindBy(xpath = "/html/body/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div/div[17]/div[2]/div/a/span")
+    @FindBy(xpath = "//a[@href=\"/catalog/elektricheskie-zubnye-shchetki-v-saratove/80961/list?hid=278374&track=fr_ctlg\"]")
     private WebElement buttonElectricalToothbrushes;
 
     private By electricalToothbrushesPageLocator = By.className("ZsTILNLaud");

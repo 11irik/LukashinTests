@@ -2,6 +2,7 @@ package ru.beru.tests;
 
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Parameters;
 import ru.beru.WebDriverSettings;
 import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;
