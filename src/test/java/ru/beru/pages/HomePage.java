@@ -10,7 +10,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.beru.WebDriverSettings;
 
 public class HomePage extends WebDriverSettings {
@@ -25,13 +24,13 @@ public class HomePage extends WebDriverSettings {
     private WebElement buttonAuth;
 
     @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")
-    private WebElement cityButton;
+    private WebElement buttinCity;
 
     @FindBy(css = "[class=\"_1U2ErCeoqP\"]")
-    private WebElement popUpcity;
+    private WebElement popupCity;
 
     @FindBy(xpath = "//div[contains(@data-auto,'region-popup')] //input[contains(@class,'_2JDvXzYsUI')]")
-    private WebElement cityField;
+    private WebElement fieldCity;
 
     @FindBy(id = "react-autowhatever-region")
     private WebElement listboxCities;
@@ -51,13 +50,18 @@ public class HomePage extends WebDriverSettings {
     @FindBy(css = "[class=\"_3JUsAgML4w\"]")
     private WebElement catalog;
 
+    @FindBy(css = "[title=\"Электрические зубные щетки\"]")
+    private WebElement buttonElectricalToothbrushes;
+
     @FindBy(css = "[title=\"Красота и гигиена\"]")
     private WebElement buttonBeautyAndHygiene;
 
-    private By firstCityOfList = By.className("_229JDbp_Z8");
-    private By authPageLocator = By.id("passp-field-login");
-    private By settingsPageLocator = By.className("_38iDpDiSsi");
-    private By beautyAndHygienePageLocator = By.className("_2dcblmamIS");
+    private By locatorFirstCityOfList = By.className("_229JDbp_Z8");
+    private By locatorAuthPage = By.id("passp-field-login");
+    private By locatorSettingsPage = By.className("_38iDpDiSsi");
+    private By locatorBeautyAndHygienePage = By.cssSelector("[title=\"Красота и гигиена\"]");
+    private By locatorElectricalToothbrushesPage = By.className("ZsTILNLaud");
+
 
     @Step("Open homepage")
     public void open() {
@@ -69,26 +73,26 @@ public class HomePage extends WebDriverSettings {
     public void openSignInPage() {
         takeScreenshot(buttonAuth, "Clicking login button");
         buttonAuth.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(authPageLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorAuthPage));
     }
 
     @Step("Check that current city is {cityName}")
     public void checkCity(String cityName) {
-        takeScreenshot(cityButton, "Getting city name");
-        Assert.assertEquals(cityName, cityButton.getText());
+        takeScreenshot(buttinCity, "Getting city name");
+        Assert.assertEquals(cityName, buttinCity.getText());
     }
 
     @Step("Change current city to {cityName}")
     public void changeCity(String cityName) {
-        takeScreenshot(cityButton, "Clicking city button");
-        cityButton.click();
-        wait.until(ExpectedConditions.visibilityOf(popUpcity));
-        cityField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
+        takeScreenshot(buttinCity, "Clicking city button");
+        buttinCity.click();
+        wait.until(ExpectedConditions.visibilityOf(popupCity));
+        fieldCity.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
         for (int i = 0; i < cityName.length(); ++i) {
-            cityField.sendKeys(Character.toString(cityName.charAt(i)));
+            fieldCity.sendKeys(Character.toString(cityName.charAt(i)));
         }
         wait.until(ExpectedConditions.visibilityOf(listboxCities));
-        WebElement firstCity = listboxCities.findElement(firstCityOfList);
+        WebElement firstCity = listboxCities.findElement(locatorFirstCityOfList);
         wait.until(ExpectedConditions.textToBePresentInElement(firstCity, cityName));
         Assert.assertEquals(cityName, firstCity.getText());
         takeScreenshot(firstCity, "Clicking the city");
@@ -96,7 +100,7 @@ public class HomePage extends WebDriverSettings {
         wait.until(ExpectedConditions.visibilityOf(buttonOk));
         takeScreenshot(buttonOk, "Clicking \"OK\"");
         buttonOk.click();
-        wait.until(ExpectedConditions.textToBePresentInElement(cityButton, cityName));
+        wait.until(ExpectedConditions.textToBePresentInElement(buttinCity, cityName));
     }
 
     @Step("Check signIn button text = {text}")
@@ -112,21 +116,24 @@ public class HomePage extends WebDriverSettings {
         wait.until(ExpectedConditions.visibilityOf(buttonSettings));
         takeScreenshot(buttonSettings, "Clicking settings");
         buttonSettings.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsPageLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorSettingsPage));
     }
 
-    @Step("Open catalog")
-    public void openCatalog() {
-        takeScreenshot(buttonCatalog, "Clicking catalog");
+//    @Step("Open catalog")
+//    public void openCatalog() {
+//        takeScreenshot(buttonCatalog, "Clicking catalog");
+//        buttonCatalog.click();
+//        wait.until(ExpectedConditions.visibilityOf(catalog));
+//    }
+
+    @Step("Open electrical toothbrushes page")
+    public void openElectricalToothbrushesPage() {
         buttonCatalog.click();
-        wait.until(ExpectedConditions.visibilityOf(catalog));
-    }
-
-    @Step("Open beauty-and-hygiene page")
-    public void openBeautyAndHygiene() {
-        takeScreenshot(buttonBeautyAndHygiene, "Clicking beauty and hygiene");
-        buttonBeautyAndHygiene.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(beautyAndHygienePageLocator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorBeautyAndHygienePage));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(locatorBeautyAndHygienePage)).build().perform();
+        buttonElectricalToothbrushes.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorElectricalToothbrushesPage));
     }
 
 

@@ -12,6 +12,10 @@ public class ChangeCityTest extends WebDriverSettings {
 
     @Test(dataProvider = "data-provider", dataProviderClass = ChangeCityTestDataProvider.class)
     public void changeCity(String defaultCity, String cityName) {
+        String login = "lukashintest";
+        String password = "Parol1234";
+        String buttonText = "Мой профиль";
+
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.checkCity(defaultCity);
@@ -20,9 +24,9 @@ public class ChangeCityTest extends WebDriverSettings {
         homePage.openSignInPage();
 
         PassportPage passportPage = new PassportPage(driver);
-        passportPage.fillLoginAndEnter("lukashintest");
-        passportPage.fillPasswordAndEnter("Parol1234");
-        homePage.checkSignInButtonText("Мой профиль");
+        passportPage.fillLoginAndEnter(login);
+        passportPage.fillPasswordAndEnter(password);
+        homePage.checkSignInButtonText(buttonText);
         homePage.openSettings();
 
         SettingsPage settingsPage = new SettingsPage(driver);

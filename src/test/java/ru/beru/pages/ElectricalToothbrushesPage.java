@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.beru.WebDriverSettings;
 
 public class ElectricalToothbrushesPage extends WebDriverSettings {
@@ -17,14 +16,15 @@ public class ElectricalToothbrushesPage extends WebDriverSettings {
     }
 
     @FindBy(xpath = "//div[@data-auto=\"filter-range-glprice\"]//span[@data-auto=\"filter-range-min\"]//input")
-    private WebElement fieldPriceStart;
+    private WebElement fieldPriceMin;
 
     @FindBy(xpath = "//div[@data-auto=\"filter-range-glprice\"]//span[@data-auto=\"filter-range-max\"]//input")
-    private WebElement fieldPriceEnd;
+    private WebElement fieldPriceMax;
 
     @FindBy(css = "[class=\"_3GNV1gy3cc\"]")
     private WebElement labelPriceRange;
 
+    //fixme
     @FindBy(xpath = "//div[@class=\"_1uhsh_io8o\"]//div[@class=\"_3rWYRsam78\"][last()]/div[last()]//div[@class=\"_1RjY7YIluf _1zYszmgEzn\"][last()-1]//span[@class=\"_2w0qPDYwej\"]")
     private WebElement penultimateToothbrush;
 
@@ -38,18 +38,17 @@ public class ElectricalToothbrushesPage extends WebDriverSettings {
     @Step("Open electrical toothbrushes page")
     public void open() {
         driver.get("https://beru.ru/catalog/elektricheskie-zubnye-shchetki-v-saratove/80961/list?hid=278374&track=fr_ctlg");
-        wait.until(ExpectedConditions.visibilityOf(fieldPriceStart));
-
+        wait.until(ExpectedConditions.visibilityOf(fieldPriceMin));
     }
 
     @Step("Set start price")
-    public void setStartPrice(int price) {
-        fieldPriceStart.sendKeys(Integer.toString(price));
+    public void setMinPrice(int price) {
+        fieldPriceMin.sendKeys(Integer.toString(price));
     }
 
     @Step("Set minimal price")
-    public void setEndPrice(int price) {
-        fieldPriceEnd.sendKeys(Integer.toString(price));
+    public void setMaxPrice(int price) {
+        fieldPriceMax.sendKeys(Integer.toString(price));
     }
 
     @Step("Check the price range is correct")
@@ -57,7 +56,6 @@ public class ElectricalToothbrushesPage extends WebDriverSettings {
         //fixme there WERE some problems with wait...
         wait.until(ExpectedConditions.visibilityOf(labelPriceRange));
         Thread.sleep(2000);
-
         String priceRange = low + " — " + max + " ₽";
         Assert.assertEquals(priceRange, labelPriceRange.getText());
     }

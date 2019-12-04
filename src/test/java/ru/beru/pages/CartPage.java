@@ -1,13 +1,13 @@
 package ru.beru.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.beru.WebDriverSettings;
 
 public class CartPage extends WebDriverSettings {
@@ -19,29 +19,21 @@ public class CartPage extends WebDriverSettings {
     private WebElement labelLeftForFreeShipment;
 
     @FindBy(css="[class=\"_1oBlNqVHPq\"]")
-    private WebElement labelSummary;
+    private WebElement labelTotal;
 
-    @FindBy(css="[class=\"_4qhIn2-ESi Pjv3h3YbYr THqSbzx07u _39B7yXQbvm _2W4X8tX6r0\"]")
+    @FindBy(css="[class=\"bLjj5ddV9I\"]")
     private WebElement buttonCheckout;
+
+    @FindBy(xpath = "//div[@class=\"_3MqS53YE3Q\"]//div[@class=\"_1u3j_pk1db\"]")
+    private WebElement labelToothbrushPrice;
 
     //fixme
     @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/div/div/input")
-    private WebElement countField;
+    private WebElement fieldCount;
 
-    //checkoutpage
-    @FindBy(css="[class=\"_1e2FY_93Ro\"]")
-    private WebElement yourOrder;
+    By locatorCheckoutPage = By.className("_1e2FY_93Ro");
 
-    @FindBy(xpath = "//div[@data-auto=\"DELIVERY\"]")
-    private WebElement buttonCourierDelivery;
-
-    @FindBy(xpath = "//div[@data-auto=\"total-delivery\"]//span[@data-auto=\"value\"]")
-    private WebElement labelDeliveryPrice;
-
-    @FindBy(xpath = "//span[@data-auto=\"change-link\"]")
-    private WebElement buttonChangeOrder;
-
-    public void getFreeShipment() throws InterruptedException {
+    public void checkFreeShipment() {
         wait.until(ExpectedConditions.visibilityOf(labelLeftForFreeShipment));
         String[] priceStr = labelLeftForFreeShipment.getText().split(" ");
         int leftForFree = Integer.parseInt(priceStr[0]);
@@ -49,27 +41,29 @@ public class CartPage extends WebDriverSettings {
             leftForFree *= 100;
             leftForFree += Integer.parseInt(priceStr[1]);
         }
-        priceStr = labelSummary.getText().split(" ");
-        int toothbrushPrice = Integer.parseInt(priceStr[0]) * 1000 + Integer.parseInt(priceStr[1]);
 
-        //checkout page
+        System.out.println(leftForFree);
+    }
+
+    public void openCheckout() {
         buttonCheckout.click();
-        wait.until(ExpectedConditions.visibilityOf(yourOrder));
-        buttonCourierDelivery.click();
-        priceStr = labelDeliveryPrice.getText().split(" ");
-        int deliveryPrice = Integer.parseInt(priceStr[0]);
-        priceStr = labelSummary.getText().split(" ");
-        int sum = Integer.parseInt(priceStr[0]) * 1000 + Integer.parseInt(priceStr[1]);
-        Assert.assertEquals(sum, deliveryPrice + toothbrushPrice);
-        buttonChangeOrder.click();
-        //checkout page
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorCheckoutPage));
+    }
 
-        wait.until(ExpectedConditions.visibilityOf(buttonCheckout));
-        int k = (int) Math.ceil(2999.0 / toothbrushPrice);
+    public void increaseTotalTo(double price) {
+        String[] nums = labelToothbrushPrice.getText().split("\\D+");
+        int toothbrushPrice = Integer.parseInt(nums[0]);
+        if (nums.length > 1) {
+            toothbrushPrice *= 1000;
+            toothbrushPrice += Integer.parseInt(nums[1]);
+        }
+
+        int k = (int) Math.ceil(price / toothbrushPrice);
         //countField.click();
-        countField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
-        countField.sendKeys(Integer.toString(k));
+        fieldCount.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
+        fieldCount.sendKeys(Integer.toString(k));
+        wait.until(ExpectedConditions.visibilityOf(labelTotal));
+        wait.until(ExpectedConditions.elementToBeClickable(buttonCheckout));
 
-        Thread.sleep(5000);
     }
 }

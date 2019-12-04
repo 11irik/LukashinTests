@@ -12,15 +12,19 @@ public class SignInTest extends WebDriverSettings {
 
     @Test
     public void signIn() {
+        String login = "lukashintest";
+        String password = "Parol1234";
+        String buttonText = "Мой профиль";
+
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.openSignInPage();
 
         PassportPage passportPage = new PassportPage(driver);
-        passportPage.fillLoginAndEnter("lukashintest");
-        passportPage.fillPasswordAndEnter("Parol1234");
+        passportPage.fillLoginAndEnter(login);
+        passportPage.fillPasswordAndEnter(password);
         homePage.open();
-        homePage.checkSignInButtonText("Мой профиль");
+        homePage.checkSignInButtonText(buttonText);
     }
 
 }

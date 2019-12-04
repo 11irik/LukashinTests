@@ -1,36 +1,39 @@
 package ru.beru.tests;
 
 import org.junit.Test;
-import org.openqa.selenium.support.PageFactory;
 import ru.beru.WebDriverSettings;
-import ru.beru.pages.BeautyAndHygienePage;
-import ru.beru.pages.CartPage;
-import ru.beru.pages.ElectricalToothbrushesPage;
-import ru.beru.pages.HomePage;
+import ru.beru.pages.*;
 
 public class BuyToothbrushesTest extends WebDriverSettings {
 
 
     @Test
     public void buyToothBrushes() throws InterruptedException {
+        int minPrice = 999;
+        int maxPrice = 1999;
+
         HomePage homePage = new HomePage(driver);
         homePage.open();
-        homePage.openCatalog();
-        homePage.openBeautyAndHygiene();
-
-        BeautyAndHygienePage beautyAndHygienePage = new BeautyAndHygienePage(driver);
-        beautyAndHygienePage.openElectricalToothbrushes();
+        homePage.openElectricalToothbrushesPage();
 
         ElectricalToothbrushesPage electricalToothbrushesPage = new ElectricalToothbrushesPage(driver);
-        electricalToothbrushesPage.setStartPrice(999);
-        electricalToothbrushesPage.setEndPrice(1999);
-        electricalToothbrushesPage.checkPriceRangeCorrect(999, 1999);
+        electricalToothbrushesPage.setMinPrice(minPrice);
+        electricalToothbrushesPage.setMaxPrice(maxPrice);
+        electricalToothbrushesPage.checkPriceRangeCorrect(minPrice, maxPrice);
         electricalToothbrushesPage.purchaseLast();
         electricalToothbrushesPage.gotoCart();
 
         CartPage cartPage = new CartPage(driver);
-        cartPage.getFreeShipment();
+        cartPage.checkFreeShipment();
+        cartPage.openCheckout();
 
-        Thread.sleep(5000);
+        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        checkoutPage.checkTotalCostCorrection();
+        checkoutPage.openCart();
+
+        cartPage.increaseTotalTo(2999);
+        cartPage.openCheckout();
+
+        checkoutPage.checkTotalCostCorrection();
     }
 }
