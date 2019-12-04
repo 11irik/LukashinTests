@@ -1,12 +1,22 @@
-<suite name="Parameter test Suite" verbose="1">
-    <parameter name="suite-param" value="Хвалынск" />
-    <test name="Parameter Test one">
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="ru.beru" verbose="1">
+    <parameter name="environment" value="QA03"/>
+
+    <test name="ChangeCity">
         <classes>
-            <class name="ru.beru.tests.ChangeCityTest">
-                <methods>
-                    <include name="prameterTestOne" />
-                </methods>
-            </class>
+            <class name="ru.beru.tests.ChangeCityTest"/>
         </classes>
     </test>
+    <test name="SignIn">
+        <classes>
+            <class name="ru.beru.tests.SignInTest"/>
+        </classes>
+    </test>
+    <test name="BuyToothbrush">
+        <classes>
+            <class name="ru.beru.tests.BuyToothbrushesTest"/>
+        </classes>
+    </test>
+
 </suite>

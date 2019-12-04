@@ -67,17 +67,20 @@ public class HomePage extends WebDriverSettings {
 
     @Step("Open sign-in page")
     public void openSignInPage() {
+        takeScreenshot(buttonAuth, "Clicking login button");
         buttonAuth.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(authPageLocator));
     }
 
     @Step("Check that current city is {cityName}")
     public void checkCity(String cityName) {
+        takeScreenshot(cityButton, "Getting city name");
         Assert.assertEquals(cityName, cityButton.getText());
     }
 
     @Step("Change current city to {cityName}")
     public void changeCity(String cityName) {
+        takeScreenshot(cityButton, "Clicking city button");
         cityButton.click();
         wait.until(ExpectedConditions.visibilityOf(popUpcity));
         cityField.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
@@ -88,35 +91,40 @@ public class HomePage extends WebDriverSettings {
         WebElement firstCity = listboxCities.findElement(firstCityOfList);
         wait.until(ExpectedConditions.textToBePresentInElement(firstCity, cityName));
         Assert.assertEquals(cityName, firstCity.getText());
+        takeScreenshot(firstCity, "Clicking the city");
         firstCity.click();
         wait.until(ExpectedConditions.visibilityOf(buttonOk));
+        takeScreenshot(buttonOk, "Clicking \"OK\"");
         buttonOk.click();
         wait.until(ExpectedConditions.textToBePresentInElement(cityButton, cityName));
     }
 
     @Step("Check signIn button text = {text}")
     public void checkSignInButtonText(String text) {
+        takeScreenshot(buttonAuth, "Getting text");
         Assert.assertEquals(text, buttonAuth.getText());
     }
 
     @Step("Open settings")
     public void openSettings() {
+        takeScreenshot(buttonAuth, "Clicking login");
         buttonAuth.click();
         wait.until(ExpectedConditions.visibilityOf(buttonSettings));
+        takeScreenshot(buttonSettings, "Clicking settings");
         buttonSettings.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsPageLocator));
     }
 
     @Step("Open catalog")
     public void openCatalog() {
+        takeScreenshot(buttonCatalog, "Clicking catalog");
         buttonCatalog.click();
         wait.until(ExpectedConditions.visibilityOf(catalog));
     }
 
     @Step("Open beauty-and-hygiene page")
     public void openBeautyAndHygiene() {
-//        Actions actions = new Actions(driver);
-//        actions.moveToElement(buttonBeautyAndHygiene).perform();
+        takeScreenshot(buttonBeautyAndHygiene, "Clicking beauty and hygiene");
         buttonBeautyAndHygiene.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(beautyAndHygienePageLocator));
     }

@@ -1,8 +1,7 @@
 package ru.beru.tests;
 
-import org.junit.Test;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import ru.beru.dataProviders.ChangeCityTestDataProvider;
 import ru.beru.WebDriverSettings;
 import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;
@@ -11,14 +10,13 @@ import ru.beru.pages.SettingsPage;
 
 public class ChangeCityTest extends WebDriverSettings {
 
-    @Test
-    public void changeCity() {
+    @Test(dataProvider = "data-provider", dataProviderClass = ChangeCityTestDataProvider.class)
+    public void changeCity(String defaultCity, String cityName) {
         HomePage homePage = new HomePage(driver);
         homePage.open();
-        homePage.checkCity("Саратов");
-        homePage.changeCity("Хвалынск");
-        //fixme wait for update
-        homePage.checkCity("Хвалынск");
+        homePage.checkCity(defaultCity);
+        homePage.changeCity(cityName);
+        homePage.checkCity(cityName);
         homePage.openSignInPage();
 
         PassportPage passportPage = new PassportPage(driver);
@@ -31,5 +29,10 @@ public class ChangeCityTest extends WebDriverSettings {
         settingsPage.checkCityMatches();
     }
 
+//    @Test
+//    public void testNothing(){
+//        String s = "public void testNothing() reached...";
+//        System.out.println(s);
+//    }
 
 }
