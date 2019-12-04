@@ -16,11 +16,10 @@ public class ElectricalToothbrushesPage extends WebDriverSettings {
         PageFactory.initElements(driver, this);
     }
 
-    //fixme
-    @FindBy(xpath = "/html/body/div[1]/div[5]/div/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div[1]/div/div/fieldset/div/span[1]/div/input")
+    @FindBy(xpath = "//div[@data-auto=\"filter-range-glprice\"]//span[@data-auto=\"filter-range-min\"]//input")
     private WebElement fieldPriceStart;
 
-    @FindBy(xpath = "/html/body/div[1]/div[5]/div/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div[1]/div/div/fieldset/div/span[2]/div/input")
+    @FindBy(xpath = "//div[@data-auto=\"filter-range-glprice\"]//span[@data-auto=\"filter-range-max\"]//input")
     private WebElement fieldPriceEnd;
 
     @FindBy(css = "[class=\"_3GNV1gy3cc\"]")
@@ -55,8 +54,7 @@ public class ElectricalToothbrushesPage extends WebDriverSettings {
 
     @Step("Check the price range is correct")
     public void checkPriceRangeCorrect(int low, int max) throws InterruptedException {
-        //fixme wait.until
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(locatorFoundedGoods));
+        //fixme there WERE some problems with wait...
         wait.until(ExpectedConditions.visibilityOf(labelPriceRange));
         Thread.sleep(2000);
 
