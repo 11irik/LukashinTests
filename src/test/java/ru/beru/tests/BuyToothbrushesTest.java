@@ -1,6 +1,5 @@
 package ru.beru.tests;
-
-import org.junit.Test;
+import org.testng.annotations.Test;
 import ru.beru.WebDriverSettings;
 import ru.beru.pages.*;
 

@@ -2,39 +2,37 @@ package ru.beru;
 
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.EventListener;
 
 public class WebDriverSettings {
-    public static ChromeDriver driver;
+    public static ChromeDriver chromeDriver;
+    public static EventFiringWebDriver driver;
     public static WebDriverWait wait;
-    @BeforeTest
-    public void start() {
+    public static SeleniumListener listener;
+    @BeforeMethod
+    public void beforeClass() {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver78.exe");
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 50);
+        chromeDriver = new ChromeDriver();
+        driver = new EventFiringWebDriver(chromeDriver);
+        listener = new SeleniumListener();
+        wait = new WebDriverWait(chromeDriver, 10);
+        driver.register(listener);
         driver.manage().window().fullscreen();
     }
-    @AfterTest
+    @AfterMethod
     protected void finish() {
-        driver.quit();
+        chromeDriver.quit();
     }
 
     @AfterMethod
@@ -44,40 +42,20 @@ public class WebDriverSettings {
         }
     }
 
-    @Rule
-    public TestWatcher watchman = new TestWatcher() {
-        @Override
-        protected void starting(Description description) {
-            System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver78.exe");
-            driver = new ChromeDriver();
-            wait = new WebDriverWait(driver, 50);
-            driver.manage().window().fullscreen();
-        }
 
-        @Override
-        protected void failed(Throwable e, Description description) {
-            try {
-                takeScreenshot(description.getClassName() + ":" + description.getMethodName());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
 
-        @Override
-        protected void finished(Description description) {
-            driver.quit();
-        }
-    };
+
+
     @Attachment(value = "Screenshot")
     public byte[] takeScreenshot(String name) throws IOException {
-        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        File screenShotFile = ((TakesScreenshot) chromeDriver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenShotFile, new File(".\\target\\screenshots\\" + name + ".png"));
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) chromeDriver).getScreenshotAs(OutputType.BYTES);
     }
 
     @Attachment(value = "Screenshot")
     public byte[] takeScreenshot(WebElement webElement, String name) {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        JavascriptExecutor jse = (JavascriptExecutor) chromeDriver;
         jse.executeScript("arguments[0].style.border='3px solid red'", webElement);
         // added sleep to give little time for browser to respond
         try {
@@ -85,12 +63,12 @@ public class WebDriverSettings {
         }catch (Exception e) {
             System.out.println(e);
         }
-        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        File screenShotFile = ((TakesScreenshot) chromeDriver).getScreenshotAs(OutputType.FILE);
         try {
             FileUtils.copyFile(screenShotFile, new File(".\\target\\screenshots\\" + name + ".png"));
         } catch (Exception e) {
             System.out.println(e);
         }
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) chromeDriver).getScreenshotAs(OutputType.BYTES);
     }
 }

@@ -1,12 +1,9 @@
 package ru.beru.tests;
 
-import org.junit.Test;
-import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Test;
 import ru.beru.WebDriverSettings;
 import ru.beru.pages.HomePage;
 import ru.beru.pages.PassportPage;
-
-import java.io.IOException;
 
 public class SignInTest extends WebDriverSettings {
 
