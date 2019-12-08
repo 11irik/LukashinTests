@@ -10,14 +10,22 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import ru.beru.WebDriverSettings;
 
 import java.util.concurrent.TimeUnit;
 
-public class HomePage extends WebDriverSettings {
+
+
+public class HomePage {
+    WebDriver driver;
+    WebDriverWait wait;
+
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
+        wait = new WebDriverWait(driver, 10);
     }
 
     @FindBy(css = "[class=\"_1r1GkezLi0\"]")

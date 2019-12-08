@@ -10,10 +10,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import ru.beru.WebDriverSettings;
 
-public class SettingsPage extends WebDriverSettings {
+public class SettingsPage {
+    WebDriver driver;
+    WebDriverWait wait;
 
     public SettingsPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
+        wait = new WebDriverWait(driver, 10);
     }
 
     @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")

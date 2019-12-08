@@ -8,12 +8,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import ru.beru.WebDriverSettings;
 
 public class CheckoutPage extends WebDriverSettings {
+    WebDriver driver;
+    WebDriverWait wait;
+
     public CheckoutPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
+        wait = new WebDriverWait(driver, 10);
     }
 
     @FindBy(css="[class=\"_1e2FY_93Ro\"]")

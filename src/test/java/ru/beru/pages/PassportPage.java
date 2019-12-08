@@ -7,11 +7,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.beru.WebDriverSettings;
 
-public class PassportPage extends WebDriverSettings {
+public class PassportPage {
+    WebDriver driver;
+    WebDriverWait wait;
+
     public PassportPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
+        wait = new WebDriverWait(driver, 10);
     }
 
     @FindBy(id = "passp-field-login")
