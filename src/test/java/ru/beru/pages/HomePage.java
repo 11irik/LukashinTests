@@ -12,7 +12,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import ru.beru.WebDriverSettings;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,8 +33,9 @@ public class HomePage {
     @FindBy(css = "[class=\"_3odNv2Dw2n\"]")
     private WebElement buttonAuth;
 
-    @FindBy(xpath = "/html/body/div[2]/div[1]/div/div/div/div/div/div/div/div/div[3]/div[3]/div/div/div/div/span/span[2]")
-    private WebElement buttinCity;
+    //fixme locator
+    @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")
+    private WebElement buttonCity;
 
     @FindBy(css = "[class=\"_1U2ErCeoqP\"]")
     private WebElement popupCity;
@@ -67,6 +67,8 @@ public class HomePage {
     @FindBy(css = "a[title=\"Красота и гигиена\"]")
     private WebElement buttonBeautyAndHygiene;
 
+    //fixme
+    private By locatorButtonCity = By.xpath("//span[contains(@data-auto,'region-form-opener')]//span[2]");
     private By locatorFirstCityOfList = By.className("_229JDbp_Z8");
     private By locatorAuthPage = By.id("passp-field-login");
     private By locatorSettingsPage = By.className("_38iDpDiSsi");
@@ -81,26 +83,32 @@ public class HomePage {
     }
 
     @Step("Open sign-in page")
-    public void openSignInPage() {
+    public void openPassportPage() {
         buttonAuth.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(locatorAuthPage));
     }
 
     @Step("Check that current city is {cityName}")
     public void checkCity(String cityName) {
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("/html/body/div[2]/div[1]/div/div/div/div/div/div/div/div/div[3]/div[3]/div/div/div/div/span/span[2]"), cityName));
-        Assert.assertEquals(cityName, buttinCity.getText());
+        wait.until(ExpectedConditions.textToBe(locatorButtonCity, cityName));
+        Assert.assertEquals(cityName, buttonCity.getText());
     }
 
     @Step("Change current city to {cityName}")
     public void changeCity(String cityName) {
-        buttinCity.click();
+        buttonCity.click();
         wait.until(ExpectedConditions.visibilityOf(popupCity));
         fieldCity.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
+
         for (int i = 0; i < cityName.length(); ++i) {
             fieldCity.sendKeys(Character.toString(cityName.charAt(i)));
+            //fixme wait until
+//            wait.until(ExpectedConditions.textMatches());
             wait.withTimeout(100, TimeUnit.MILLISECONDS);
         }
+
+        //todo ask about the initialization of webdriver
+        wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOf(listboxCities));
         WebElement firstCity = listboxCities.findElement(locatorFirstCityOfList);
         wait.until(ExpectedConditions.textToBePresentInElement(firstCity, cityName));
@@ -123,12 +131,6 @@ public class HomePage {
         buttonSettings.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(locatorSettingsPage));
     }
-
-//    @Step("Open catalog")
-//    public void openCatalog() {
-//        buttonCatalog.click();
-//        wait.until(ExpectedConditions.visibilityOf(catalog));
-//    }
 
     @Step("Open electrical toothbrushes page")
     public void openElectricalToothbrushesPage() {

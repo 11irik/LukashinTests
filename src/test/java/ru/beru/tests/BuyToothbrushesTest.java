@@ -10,6 +10,7 @@ public class BuyToothbrushesTest extends WebDriverSettings {
     public void buyToothBrushes() throws InterruptedException {
         int minPrice = 999;
         int maxPrice = 1999;
+        int finalPrice = 2999;
 
         HomePage homePage = new HomePage(driver);
         homePage.open();
@@ -30,7 +31,7 @@ public class BuyToothbrushesTest extends WebDriverSettings {
         checkoutPage.checkTotalCostCorrection();
         checkoutPage.openCart();
 
-        cartPage.increaseTotalTo(2999);
+        cartPage.increaseTotalTo(finalPrice);
         cartPage.openCheckout();
 
         checkoutPage.checkTotalCostCorrection();

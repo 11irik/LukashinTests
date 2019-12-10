@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -31,11 +32,14 @@ public class ElectricalToothbrushesPage {
     @FindBy(css = "[class=\"_3GNV1gy3cc\"]")
     private WebElement labelPriceRange;
 
+    @FindBy(xpath = "//span[contains(@class, '_3ioN70chUh _3XRVQbB83A')]")
+    private WebElement popupFounded;
+
     //fixme
     @FindBy(xpath = "//div[@class=\"_1uhsh_io8o\"]//div[@class=\"_3rWYRsam78\"][last()]/div[last()]//div[@class=\"_1RjY7YIluf _1zYszmgEzn\"][last()-1]//span[@class=\"_2w0qPDYwej\"]")
     private WebElement penultimateToothbrush;
 
-    @FindBy(css = "[class=\"_3ioN70chUh QFR-8bfWr4 _3Uc73lzxcf\"]")
+    @FindBy(css = "[class=\"_1LEwf9X1Gy\"]")
     private WebElement buttonGotoCart;
 
     private By locatorFoundedGoods = By.className("_3rWu3-6RDl qpgDgmh6Hn _11QbuC0gtX _1zxBwSfbGK _1mXFu6EZpv >wrItvb7JRv");
@@ -62,21 +66,28 @@ public class ElectricalToothbrushesPage {
     public void checkPriceRangeCorrect(int low, int max) throws InterruptedException {
         //fixme there WERE some problems with wait...
         wait.until(ExpectedConditions.visibilityOf(labelPriceRange));
-        Thread.sleep(2000);
+//        Thread.sleep(2000);
         String priceRange = low + " — " + max + " ₽";
         Assert.assertEquals(priceRange, labelPriceRange.getText());
+
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return popupFounded.isDisplayed();
+            }
+        });
     }
+
 
     @Step("Purchasing penultimate toothbrush")
     public void purchaseLast() {
         wait.until(ExpectedConditions.elementToBeClickable(penultimateToothbrush));
         penultimateToothbrush.click();
-        wait.until(ExpectedConditions.textToBePresentInElement(penultimateToothbrush, "В корзине"));
+        wait.until(ExpectedConditions.elementToBeClickable(penultimateToothbrush));
     }
 
     @Step("Go to cart")
     public void gotoCart() {
-        penultimateToothbrush.click();
+        buttonGotoCart.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(locatorCartPage));
     }
 

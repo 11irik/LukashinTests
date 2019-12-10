@@ -1,7 +1,6 @@
 package ru.beru;
 
 import io.qameta.allure.Attachment;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
@@ -14,7 +13,7 @@ public class SeleniumListener implements WebDriverEventListener {
     @Attachment(value = "Screenshot")
     public static byte[] takeScreenshot(String name, WebDriver driver) throws IOException {
         File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(screenShotFile, new File(".\\target\\screenshots\\" + name + ".png"));
+        FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
@@ -30,7 +29,7 @@ public class SeleniumListener implements WebDriverEventListener {
         }
         File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         try {
-            FileUtils.copyFile(screenShotFile, new File(".\\target\\screenshots\\" + name + ".png"));
+            FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -118,6 +117,10 @@ public class SeleniumListener implements WebDriverEventListener {
     }
 
     public void onException(Throwable throwable, WebDriver webDriver) {
-
+        try {
+            takeScreenshot("fail", webDriver);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

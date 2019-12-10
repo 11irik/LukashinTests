@@ -15,12 +15,11 @@ public class SignInTest extends WebDriverSettings {
 
         HomePage homePage = new HomePage(driver);
         homePage.open();
-        homePage.openSignInPage();
+        homePage.openPassportPage();
 
         PassportPage passportPage = new PassportPage(driver);
         passportPage.fillLoginAndEnter(login);
         passportPage.fillPasswordAndEnter(password);
-        homePage.open();
         homePage.checkSignInButtonText(buttonText);
     }
 
