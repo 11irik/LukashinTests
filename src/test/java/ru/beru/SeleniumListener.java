@@ -1,29 +1,20 @@
 package ru.beru;
 
 import io.qameta.allure.Attachment;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.WebDriverEventListener;
-
 import java.io.File;
-import java.io.IOException;
-import java.sql.Driver;
+
 
 public class SeleniumListener implements WebDriverEventListener {
 
     @Attachment(value = "Screenshot")
-    public static byte[] takeScreenshot(String name, WebDriver driver) throws IOException {
-        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    }
-
-    @Attachment(value = "Screenshot")
-    public static byte[] takeScreenshot(WebElement webElement, WebDriver driver, String name) {
+    public static byte[] takeScreenshot(WebDriver driver, By by, String name) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("arguments[0].style.border='3px solid red'", webElement);
-        // added sleep to give little time for browser to respond
+        jse.executeScript("arguments[0].style.border='3px solid red'", driver.findElement(by));
         try {
-            Thread.sleep(200);
+            Thread.sleep(100);
         }catch (Exception e) {
             System.out.println(e);
         }
@@ -32,6 +23,25 @@ public class SeleniumListener implements WebDriverEventListener {
             FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
         } catch (Exception e) {
             System.out.println(e);
+        }
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    @Attachment(value = "Screenshot")
+    public static byte[] takeScreenshot(WebDriver driver, WebElement webElement, String name) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].style.border='3px solid red'", webElement);
+        try {
+            Thread.sleep(100);
+        }catch (Exception e) {
+            System.out.println(e);
+        }
+        File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
+        } catch (Exception e) {
+            System.out.println(e);
+            webElement.getLocation();
         }
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
@@ -84,16 +94,17 @@ public class SeleniumListener implements WebDriverEventListener {
 
     }
 
+    //todo ASK IT
     public void beforeFindBy(By by, WebElement webElement, WebDriver webDriver) {
-
+        takeScreenshot(webDriver, by, webDriver.findElement(by).getText());
     }
 
     public void afterFindBy(By by, WebElement webElement, WebDriver webDriver) {
-//        takeScreenshot(webElement, webDriver, webElement.getTagName());
+//        takeScreenshot(webDriver, by, webDriver.findElement(by).getText());
     }
 
     public void beforeClickOn(WebElement webElement, WebDriver webDriver) {
-        takeScreenshot(webElement, webDriver, webElement.getTagName());
+//        takeScreenshot(webDriver, webElement, webElement.getText());
     }
 
     public void afterClickOn(WebElement webElement, WebDriver webDriver) {
@@ -117,10 +128,5 @@ public class SeleniumListener implements WebDriverEventListener {
     }
 
     public void onException(Throwable throwable, WebDriver webDriver) {
-        try {
-            takeScreenshot("fail", webDriver);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

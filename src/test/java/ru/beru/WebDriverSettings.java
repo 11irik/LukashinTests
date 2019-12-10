@@ -34,7 +34,7 @@ public class WebDriverSettings {
 
     @AfterMethod
     protected void finish() {
-        chromeDriver.quit();
+        driver.quit();
     }
 
     @AfterMethod
@@ -46,8 +46,8 @@ public class WebDriverSettings {
 
     @Attachment(value = "Screenshot")
     public byte[] takeScreenshot(String name) throws IOException {
-        File screenShotFile = ((TakesScreenshot) chromeDriver).getScreenshotAs(OutputType.FILE);
+        File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
-        return ((TakesScreenshot) chromeDriver).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 }

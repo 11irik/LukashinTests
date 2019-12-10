@@ -35,7 +35,7 @@ public class ElectricalToothbrushesPage {
     @FindBy(xpath = "//span[contains(@class, '_3ioN70chUh _3XRVQbB83A')]")
     private WebElement popupFounded;
 
-    //fixme
+    //todo ask about correction
     @FindBy(xpath = "//div[@class=\"_1uhsh_io8o\"]//div[@class=\"_3rWYRsam78\"][last()]/div[last()]//div[@class=\"_1RjY7YIluf _1zYszmgEzn\"][last()-1]//span[@class=\"_2w0qPDYwej\"]")
     private WebElement penultimateToothbrush;
 
@@ -64,9 +64,7 @@ public class ElectricalToothbrushesPage {
 
     @Step("Check the price range is correct")
     public void checkPriceRangeCorrect(int low, int max) throws InterruptedException {
-        //fixme there WERE some problems with wait...
         wait.until(ExpectedConditions.visibilityOf(labelPriceRange));
-//        Thread.sleep(2000);
         String priceRange = low + " — " + max + " ₽";
         Assert.assertEquals(priceRange, labelPriceRange.getText());
 
@@ -76,7 +74,6 @@ public class ElectricalToothbrushesPage {
             }
         });
     }
-
 
     @Step("Purchasing penultimate toothbrush")
     public void purchaseLast() {

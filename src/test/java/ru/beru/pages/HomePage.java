@@ -33,7 +33,6 @@ public class HomePage {
     @FindBy(css = "[class=\"_3odNv2Dw2n\"]")
     private WebElement buttonAuth;
 
-    //fixme locator
     @FindBy(xpath = "//span[contains(@data-auto,'region-form-opener')]//span[2]")
     private WebElement buttonCity;
 
@@ -67,7 +66,6 @@ public class HomePage {
     @FindBy(css = "a[title=\"Красота и гигиена\"]")
     private WebElement buttonBeautyAndHygiene;
 
-    //fixme
     private By locatorButtonCity = By.xpath("//span[contains(@data-auto,'region-form-opener')]//span[2]");
     private By locatorFirstCityOfList = By.className("_229JDbp_Z8");
     private By locatorAuthPage = By.id("passp-field-login");
@@ -102,12 +100,10 @@ public class HomePage {
 
         for (int i = 0; i < cityName.length(); ++i) {
             fieldCity.sendKeys(Character.toString(cityName.charAt(i)));
-            //fixme wait until
-//            wait.until(ExpectedConditions.textMatches());
             wait.withTimeout(100, TimeUnit.MILLISECONDS);
         }
 
-        //todo ask about the initialization of webdriver
+        //todo ask about the initialization of webdriverwait
         wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOf(listboxCities));
         WebElement firstCity = listboxCities.findElement(locatorFirstCityOfList);
@@ -116,7 +112,7 @@ public class HomePage {
         firstCity.click();
         wait.until(ExpectedConditions.visibilityOf(buttonOk));
         buttonOk.click();
-        wait.withTimeout(3000, TimeUnit.MILLISECONDS);
+        wait.until(ExpectedConditions.textToBePresentInElement(buttonCity, cityName));
     }
 
     @Step("Check signIn button text = {text}")

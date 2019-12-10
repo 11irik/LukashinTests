@@ -33,7 +33,7 @@ public class CartPage extends WebDriverSettings {
     @FindBy(xpath = "//div[@class=\"_3MqS53YE3Q\"]//div[@class=\"_1u3j_pk1db\"]")
     private WebElement labelToothbrushPrice;
 
-    //fixme
+    //fixme xpath
     @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/div/div/input")
     private WebElement fieldCount;
 
@@ -65,11 +65,13 @@ public class CartPage extends WebDriverSettings {
         }
 
         int k = (int) Math.ceil(price / toothbrushPrice);
-        //countField.click();
         fieldCount.sendKeys(Keys.chord(Keys.CONTROL, "a") + Keys.DELETE);
         fieldCount.sendKeys(Integer.toString(k));
         wait.until(ExpectedConditions.visibilityOf(labelTotal));
         wait.until(ExpectedConditions.elementToBeClickable(buttonCheckout));
+    }
+
+    public void clearCart() {
 
     }
 }
