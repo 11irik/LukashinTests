@@ -1,7 +1,6 @@
 package ru.beru.pages;
 
 import io.qameta.allure.Step;
-//import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import ru.beru.WebDriverSettings;
 
 public class ElectricalToothbrushesPage {
     WebDriver driver;
@@ -76,7 +74,9 @@ public class ElectricalToothbrushesPage {
     }
 
     @Step("Purchasing penultimate toothbrush")
+    //fixme taking too many screenshots
     public void purchaseLast() {
+        wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.elementToBeClickable(penultimateToothbrush));
         penultimateToothbrush.click();
         wait.until(ExpectedConditions.elementToBeClickable(penultimateToothbrush));

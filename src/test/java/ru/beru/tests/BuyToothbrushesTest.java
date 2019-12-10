@@ -1,7 +1,11 @@
 package ru.beru.tests;
+
 import org.testng.annotations.Test;
 import ru.beru.WebDriverSettings;
-import ru.beru.pages.*;
+import ru.beru.pages.CartPage;
+import ru.beru.pages.CheckoutPage;
+import ru.beru.pages.ElectricalToothbrushesPage;
+import ru.beru.pages.HomePage;
 
 public class BuyToothbrushesTest extends WebDriverSettings {
 
@@ -35,5 +39,7 @@ public class BuyToothbrushesTest extends WebDriverSettings {
         cartPage.openCheckout();
 
         checkoutPage.checkTotalCostCorrection();
+        //todo check the deletion
+        cartPage.cleanCart();
     }
 }

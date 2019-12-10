@@ -1,6 +1,6 @@
 package ru.beru.pages;
 
-//import org.junit.Assert;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +27,7 @@ public class CartPage extends WebDriverSettings {
     @FindBy(css="[class=\"_1oBlNqVHPq\"]")
     private WebElement labelTotal;
 
-    @FindBy(css="[class=\"bLjj5ddV9I\"]")
+    @FindBy(css="[class=\"_4qhIn2-ESi Pjv3h3YbYr THqSbzx07u _39B7yXQbvm _2W4X8tX6r0\"]")
     private WebElement buttonCheckout;
 
     @FindBy(xpath = "//div[@class=\"_3MqS53YE3Q\"]//div[@class=\"_1u3j_pk1db\"]")
@@ -37,8 +37,22 @@ public class CartPage extends WebDriverSettings {
     @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/div/div/input")
     private WebElement fieldCount;
 
-    By locatorCheckoutPage = By.className("_1e2FY_93Ro");
+    @FindBy(css = "[class=\"_2TbI0lRCD8\"]")
+    private WebElement buttonDelete;
 
+    @FindBy(css="[class=\"_2TFWzc3clT\"]")
+    private WebElement labelClear;
+
+    By locatorCheckoutPage = By.className("_1e2FY_93Ro");
+    By locatorButtonDelete = By.className("uL4H6qKhvR");
+    By locatorDeletionCross = By.className("_45y2-1v_xT");
+
+    @Step("Opening cart page")
+    public void open() {
+        driver.get("https://beru.ru/my/cart");
+    }
+
+    @Step("Checking is shipping free")
     public void checkFreeShipment() {
         wait.until(ExpectedConditions.visibilityOf(labelLeftForFreeShipment));
         String[] priceStr = labelLeftForFreeShipment.getText().split(" ");
@@ -51,11 +65,13 @@ public class CartPage extends WebDriverSettings {
         System.out.println(leftForFree);
     }
 
+    @Step("Opening checkout")
     public void openCheckout() {
         buttonCheckout.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(locatorCheckoutPage));
     }
 
+    @Step("Increasing total price to {price}")
     public void increaseTotalTo(double price) {
         String[] nums = labelToothbrushPrice.getText().split("\\D+");
         int toothbrushPrice = Integer.parseInt(nums[0]);
@@ -71,7 +87,14 @@ public class CartPage extends WebDriverSettings {
         wait.until(ExpectedConditions.elementToBeClickable(buttonCheckout));
     }
 
-    public void clearCart() {
-
+    @Step("Cleaning cart")
+    public void cleanCart() {
+        open();
+        if (driver.findElements(locatorButtonDelete).size() != 0) {
+            buttonDelete.click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locatorDeletionCross));
+            open();
+        }
+        wait.until(ExpectedConditions.visibilityOf(labelClear));
     }
 }

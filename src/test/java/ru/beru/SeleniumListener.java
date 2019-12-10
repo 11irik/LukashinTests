@@ -13,18 +13,20 @@ public class SeleniumListener implements WebDriverEventListener {
     public static byte[] takeScreenshot(WebDriver driver, By by, String name) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].style.border='3px solid red'", driver.findElement(by));
+
         try {
-            Thread.sleep(100);
-        }catch (Exception e) {
-            System.out.println(e);
+            Thread.sleep(170);
+        }catch (Exception ignored) {
         }
         File screenShotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         try {
             FileUtils.copyFile(screenShotFile, new File("./target/screenshots/" + name + ".png"));
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (Exception ignored) {
         }
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+
+        byte[] screen = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        jse.executeScript("arguments[0].style.border=''", driver.findElement(by));
+        return screen;
     }
 
     @Attachment(value = "Screenshot")
@@ -96,11 +98,13 @@ public class SeleniumListener implements WebDriverEventListener {
 
     //todo ASK IT
     public void beforeFindBy(By by, WebElement webElement, WebDriver webDriver) {
-        takeScreenshot(webDriver, by, webDriver.findElement(by).getText());
+        try {
+            takeScreenshot(webDriver, by, webDriver.findElement(by).getText());
+        } catch (Exception ignored) {};
     }
 
     public void afterFindBy(By by, WebElement webElement, WebDriver webDriver) {
-//        takeScreenshot(webDriver, by, webDriver.findElement(by).getText());
+
     }
 
     public void beforeClickOn(WebElement webElement, WebDriver webDriver) {

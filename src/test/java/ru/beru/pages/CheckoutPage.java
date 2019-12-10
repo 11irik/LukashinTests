@@ -1,10 +1,9 @@
 package ru.beru.pages;
 
-//import org.junit.Assert;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -43,6 +42,7 @@ public class CheckoutPage extends WebDriverSettings {
     private By locatorDiscount = By.xpath("//div[@data-auto=\"total-discount\"]//span[@data-auto=\"value\"]");
     private By locatorCartPage = By.className("wn9mZbgWbv");
 
+    @Step("Checking is total cost correct")
     public void checkTotalCostCorrection() {
         String[] nums = labelItemsPrice.getText().split("\\D+");
         int itemsPrice = Integer.parseInt(nums[0]);
@@ -85,6 +85,7 @@ public class CheckoutPage extends WebDriverSettings {
         Assert.assertEquals(deliveryPrice + itemsPrice - discount, total);
     }
 
+    @Step("Opening cart")
     public void openCart() {
         buttonChangeOrder.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(locatorCartPage));
