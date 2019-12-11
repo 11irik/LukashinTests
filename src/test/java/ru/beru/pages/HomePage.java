@@ -99,7 +99,7 @@ public class HomePage {
 
         for (int i = 0; i < cityName.length(); ++i) {
             fieldCity.sendKeys(Character.toString(cityName.charAt(i)));
-            wait.withTimeout(100, TimeUnit.MILLISECONDS);
+            wait.withTimeout(50, TimeUnit.MILLISECONDS);
         }
 
         //todo ask about the initialization of webdriverwait

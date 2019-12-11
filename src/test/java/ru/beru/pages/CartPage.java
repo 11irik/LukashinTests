@@ -34,7 +34,7 @@ public class CartPage extends WebDriverSettings {
     private WebElement labelToothbrushPrice;
 
     //fixme xpath
-    @FindBy(xpath = "/html/body/div[1]/div/div[1]/div[3]/div/div/div/div/div/div/div[2]/div/div/div/div[1]/div/div[3]/div/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/div/div/div/div/div/input")
+    @FindBy(xpath = "//div[@data-auto=\"CartOffer\"]//input[@value]")
     private WebElement fieldCount;
 
     @FindBy(css = "[class=\"_2TbI0lRCD8\"]")

@@ -9,6 +9,7 @@ import java.io.File;
 
 public class SeleniumListener implements WebDriverEventListener {
 
+    //todo ask screenshot naming
     @Attachment(value = "Screenshot")
     public static byte[] takeScreenshot(WebDriver driver, By by, String name) {
         JavascriptExecutor jse = (JavascriptExecutor) driver;

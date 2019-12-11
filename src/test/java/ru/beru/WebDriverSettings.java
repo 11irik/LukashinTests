@@ -35,6 +35,7 @@ public class WebDriverSettings {
         driver.quit();
     }
 
+    //todo ask where to catch failure(maybe in listener)
     @AfterMethod
     public void catchFailure(ITestResult result) throws IOException {
         if (!result.isSuccess()) {
