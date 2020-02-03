@@ -15,7 +15,7 @@ public class ChangeCityTest extends WebDriverSettings {
         String login = "lukashintest";
         String password = "Parol1234";
         String buttonText = "Мой профиль";
-
+        //testtest
         HomePage homePage = new HomePage(driver);
         homePage.open();
         homePage.checkCity(defaultCity);
